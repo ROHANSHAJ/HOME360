@@ -1,6 +1,6 @@
 {
-    "name": "homeui",
-    "short_name": "homeui",
+    "name": "hometest",
+    "short_name": "hometest",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
