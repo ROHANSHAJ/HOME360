@@ -45,8 +45,8 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final TextEditingController userController = TextEditingController();
-  final TextEditingController passController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   void _login() async {
@@ -55,8 +55,8 @@ class _LoginScreenState extends State<LoginScreen> {
     const String predefinedPassword = 'password';
 
     // Check if the entered credentials match the predefined ones
-    if (userController.text == predefinedUsername &&
-        passController.text == predefinedPassword) {
+    if (_emailController.text == predefinedUsername &&
+        _passwordController.text == predefinedPassword) {
       // Navigate to the HomeScreen directly
       Navigator.pushReplacement(
         context,
@@ -68,8 +68,8 @@ class _LoginScreenState extends State<LoginScreen> {
     // If credentials don't match, proceed with Firebase authentication
     try {
       UserCredential userCredential = await _auth.signInWithEmailAndPassword(
-        email: userController.text,
-        password: passController.text,
+        email: _emailController.text,
+        password: _passwordController.text,
       );
       Navigator.pushReplacement(
         context,
@@ -85,30 +85,101 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Login')),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            TextField(
-              controller: userController,
-              decoration: const InputDecoration(labelText: 'Login id'),
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [Colors.blue, Colors.purple],
+          ),
+        ),
+        child: Center(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                // Logo or Image
+                Image.asset(
+                  'assets/icon.png', // Add your image asset path
+                  height: 150,
+                  width: 150,
+                ),
+                const SizedBox(height: 20),
+                const Text(
+                  'Welcome to Home 360',
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
+                const SizedBox(height: 20),
+                // Email Field
+                TextField(
+                  controller: _emailController,
+                  decoration: InputDecoration(
+                    labelText: 'Login id',
+                    labelStyle: const TextStyle(color: Colors.white),
+                    filled: true,
+                    fillColor: Colors.white.withOpacity(0.3),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: BorderSide.none,
+                    ),
+                    prefixIcon: const Icon(Icons.email, color: Colors.white),
+                  ),
+                  style: const TextStyle(color: Colors.white),
+                ),
+                const SizedBox(height: 20),
+                // Password Field
+                TextField(
+                  controller: _passwordController,
+                  obscureText: true,
+                  decoration: InputDecoration(
+                    labelText: 'Password',
+                    labelStyle: const TextStyle(color: Colors.white),
+                    filled: true,
+                    fillColor: Colors.white.withOpacity(0.3),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: BorderSide.none,
+                    ),
+                    prefixIcon: const Icon(Icons.lock, color: Colors.white),
+                  ),
+                  style: const TextStyle(color: Colors.white),
+                ),
+                const SizedBox(height: 30),
+                // Login Button
+                ElevatedButton(
+                  onPressed: _login,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 50, vertical: 15),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                  child: const Text(
+                    'Login',
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: Colors.blue,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ],
             ),
-            TextField(
-              controller: passController,
-              decoration: const InputDecoration(labelText: 'Password'),
-              obscureText: true,
-            ),
-            const SizedBox(height: 20),
-            ElevatedButton(onPressed: _login, child: const Text('Login')),
-          ],
+          ),
         ),
       ),
     );
   }
 }
 
+// Rest of the code remains the same (HomeScreen, FeatureCard, FeatureDetailScreen, LightControlScreen)
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
@@ -129,7 +200,7 @@ class HomeScreen extends StatelessWidget {
           children: [
             FeatureCard(
               title: 'Home Control',
-              icon: Icons.security,
+              icon: Icons.control_camera_sharp,
               color: const Color.fromARGB(255, 111, 5, 140),
               onTap: () => Navigator.push(
                 context,

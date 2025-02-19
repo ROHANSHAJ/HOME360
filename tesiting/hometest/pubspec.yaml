@@ -34,7 +34,8 @@ dependencies:
   cloud_firestore: ^5.6.4  # Latest stable version
   firebase_database: ^11.3.3  # Realtime Database
   firebase_auth: ^5.5.0  # Firebase Authentication
-
+  intl: ^0.18.0
+  
 
   flutter_web_plugins:
     sdk: flutter
